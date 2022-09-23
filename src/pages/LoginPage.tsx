@@ -5,10 +5,13 @@ import * as Yup from "yup";
 import { login } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 
-interface RouteProps {
-    location?: H.Location;
-    component?:React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
-    render?:(props)
+ interface RouteProps {
+    path: string;   
+
+
+    //location?: H.Location;
+//     component?:React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+//     render?:(props)
 
 }
 

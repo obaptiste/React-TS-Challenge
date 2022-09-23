@@ -1,8 +1,27 @@
+import React, {useState} from 'react';
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as YUP from "yup";
+import * as Yup from "yup";
 
-const Login: React.FC<Props> = (...) => {
-    
+import { login } from "../services/auth.service";
+import { useNavigate } from "react-router-dom";
+
+ interface RouteProps {
+    path: string;   
+
+
+    //location?: H.Location;
+//     component?:React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+//     render?:(props)
+
+}
+
+type Props = RouteComponentProps <RouterProps>;
+
+const Login: React.FC<Props> = ({ history }) => {
+    let navigate = useNavigate();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
+
     const initialValues: {
         username: string;
         password: string;
@@ -18,33 +37,83 @@ const Login: React.FC<Props> = (...) => {
 
     const handleLogin = (formValue: {username: string; password: string}) => {
         const { username, password } = formValue;
+        setMessage("");
+        setLoading(true);
     };
 
-    return (
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleLogin}
-            >
-                <Form>
-                    <div>
-                        <label htmlFor="username">Username</label>
-                        <Field name="username" type="text" />
-                        <ErrorMessage name="username" component="div" />
-                    </div>
 
-                    <div>
-                        <label htmlFor="password">Password</label>
-                        <Field name="password" type="password"/>
-                        <ErrorMessage name="password" component="div" />
-                    </div>
+    login(username, password).then(
+        () => {
+            navigate("/profile");
+            window.location.reload();
+        },
+        (error) => {
+            const resMessage = 
+            (error.response &&
+                error.response.data && 
+                error.response.data.message) || error.message || error.toString();
 
-                    <div>
-                        <button type="submit" disabled={loading}>
-                            Login
-                        </button>
-                    </div>
-                </Form>
-            </Formik>
+                setLoading(false);
+                setMessage(resMessage);
+        }
     );
 };
+
+return (
+    <div className="login-card">
+        <div className="card card-container">
+            <img
+            src=""
+            alt=""
+            className="profile_img_card"
+            />
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleLogin}
+                >
+                    <Form>
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <Field name="username" type="text" className="form-control" />
+                            <ErrorMessage
+                                name="username"
+                                component="div"
+                                className="alert alert-danger"
+                                />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <Field name="password" type="password" className="form-control" />
+                            <ErrorMessage
+                                name="password"
+                                component="div"
+                                className="alert alert-danger"
+                                />
+                        </div>    
+
+                        <div className="form-group">
+                            <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+                                {loading && (
+                                    <span className="spinner-border"></span>
+                                )}
+                                <span>Login</span>
+                                </button>
+                        </div>   
+
+                        {message && (
+                            <div className="form-group">
+                                <div className="alert alert-danger" role="alert">
+                                    {message}
+                                </div>
+                            </div>
+                        )}
+                    </Form>
+                </Formik>
+        </div>
+    </div>
+);
+                        };
+
+                        export default Login

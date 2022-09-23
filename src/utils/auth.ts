@@ -48,7 +48,8 @@ const token:Token = await request <Token>(url, {headers}).then(token => {
     localStorage.setItem("auth", response.formData.toString());
     hasToken: true
     token: response.formData
-}) as unknown as typeof token
+})>
+
   
 
     const response:Response = await window.fetch(url, {  
@@ -67,12 +68,10 @@ const token:Token = await request <Token>(url, {headers}).then(token => {
                 } else {
             return Promise.reject(new Error('No songs found'))
         }
-    } else {
 
-    }
     
 }catch (error) {
     console.error(error)
 }
 
-}
+

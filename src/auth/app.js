@@ -15,7 +15,7 @@
  
  var client_id = '29b3254a2def44908dd164cf04831935'; // Your client id
  var client_secret = '28c2bddf7d734530a75a0d66ed5210b2'; // Your secret
- var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+ var redirect_uri = 'http://localhost:8080/callback'; // Your redirect uri
  
  /**
   * Generates a random string containing numbers and letters
@@ -143,5 +143,5 @@
    });
  });
  
- console.log('Listening on 8888');
- app.listen(8888);
+ console.log('Listening on 8080');
+ app.listen(8080);
